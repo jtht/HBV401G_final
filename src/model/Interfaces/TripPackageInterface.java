@@ -8,8 +8,8 @@ public interface TripPackageInterface {
 	public void setFlight(mock.FlightMock flight);
 	public mock.FlightMock getFlight();
 
-	public void setHotel(Hotel hotel);
-	public Hotel getHotel();
+	public void setHotel(mock.HotelMock hotel);
+	public mock.HotelMock getHotel();
 
 	public void addDayTour(DayTour dayTour);
 	public DayTour[] getDayTour();

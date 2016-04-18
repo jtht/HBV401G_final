@@ -10,7 +10,7 @@ public class TripGenerator implements TripGeneratorInterface {
 	private List<TripPackage> tripPackages = new ArrayList<TripPackage>();
 	private mock.FlightMock[] flights;
 	private mock.FlightMock[] returns;
-	private Hotel[] hotels;
+	private mock.HotelMock[] hotels;
 	private DayTour[] dayTours;
 
 	public void TripGenerator() {
@@ -36,15 +36,15 @@ public class TripGenerator implements TripGeneratorInterface {
 	private void fetchTripsData() {
 		this.flights = this.search.getFlights();
 		this.returns = this.search.getReturns();
-		//this.hotels = this.search.getHotels();
-		//this.dayTours = this.search.getDayTours();
+		this.hotels = this.search.getHotels();
+		this.dayTours = this.search.getDayTours();
 	}
 
 	private TripPackage makeTripPackage() {
 		TripPackage tmp = new TripPackage();
 		tmp.setFlight(this.flights[0]);
-		//tmp.setHotel(this.hotels[0]);
-		//tmp.addDayTour(this.dayTours[0]);
+		tmp.setHotel(this.hotels[0]);
+		tmp.addDayTour(this.dayTours[0]);
 		tmp.setReturnFlight(this.returns[0]);
 		return tmp;
 	}

@@ -1,13 +1,14 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import model.Interfaces.TripPackageInterface;
 
 public class TripPackage implements TripPackageInterface {
 	private mock.FlightMock flight;
 	private mock.FlightMock returnFlight;
-	private Hotel hotel;
-	private List<DayTour> dayTours;
+	private mock.HotelMock hotel;
+	private List<DayTour> dayTours = new ArrayList<>();
 
 	public void setFlight(mock.FlightMock flight) {
 		this.flight = flight;
@@ -17,11 +18,11 @@ public class TripPackage implements TripPackageInterface {
 		return this.flight;
 	}
 
-	public void setHotel(Hotel hotel) {
+	public void setHotel(mock.HotelMock hotel) {
 		this.hotel = hotel;
 	}
 
-	public Hotel getHotel() {
+	public mock.HotelMock getHotel() {
 		return this.hotel;
 	}
 
@@ -30,7 +31,9 @@ public class TripPackage implements TripPackageInterface {
 	}
 
 	public DayTour[] getDayTour() {
-		return (DayTour[]) this.dayTours.toArray();
+            DayTour[] res = new DayTour[this.dayTours.size()];
+            res = this.dayTours.toArray(res);
+            return res;
 	}
 
 	public void setReturnFlight(mock.FlightMock returnFlight) {

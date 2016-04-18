@@ -18,9 +18,10 @@ public class Search implements SearchInterface{
     private final mock.FlightSearchMock flightSearch = new mock.FlightSearchMock();
     private final mock.HotelSearchMock hotelSearch = new mock.HotelSearchMock();
     private final mock.DayTourSearchMock dayTourSearch = new mock.DayTourSearchMock();
+    
     private List<mock.FlightMock> possibleFlights;
     private List<mock.FlightMock> possibleReturns;
-    private Hotel[] possibleHotels;
+    private List<mock.HotelMock> possibleHotels;
     private DayTour[] possibleDayTours;
     private Profile profile;
 
@@ -29,10 +30,33 @@ public class Search implements SearchInterface{
                 Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 profile.getDestination(),
                 profile.getOrigin());
+        
         possibleReturns = flightSearch.search(profile.getPartySize(),
                 Date.from(profile.getArrivalDate().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 profile.getOrigin(),
                 profile.getDestination());
+        
+        mock.HotelSearchFilterMock filter = new mock.HotelSearchFilterMock();
+        filter.wifi = true;
+        filter.smoking = false;
+        filter.breakfast = true;
+        filter.rating = 4.0;
+        filter.areaId = 1;
+        filter.dateIn = Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        filter.dateOut = Date.from(profile.getArrivalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
+        possibleHotels = hotelSearch.findHotels(filter);
+        
+        //Object[] a = {cardDir, selectLanguage, review, animals, insurence, pickUp, accessibility};
+        Object[] tmpInput = {3, 1, 3, false, true, true, false};
+        Object[] tmp = dayTourSearch.search("Vatnajökull", "Hike", tmpInput);
+        //Búa til DayTour objectin. Vantar að vita hvernig nákvæmlega þetta á eftir að enda
+        DayTour[] tmpTours = new DayTour[tmp.length];
+        for(int i = 0; i < tmp.length; i++) {
+            DayTour tmptour = new DayTour();
+            tmptour.setActivity("Hiking");
+            tmpTours[i] = tmptour;
+        }
+        this.possibleDayTours = tmpTours;
     }
 
     public mock.FlightMock[] getFlights() {
@@ -47,12 +71,18 @@ public class Search implements SearchInterface{
         return res;
     }
 
-    public Hotel[] getHotels() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public mock.HotelMock[] getHotels() {
+        mock.HotelMock[] res = new mock.HotelMock[this.possibleHotels.size()];
+        res = this.possibleHotels.toArray(res);
+        return res;
     }
 
     public DayTour[] getDayTours() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //return this.possibleDayTours;
+        DayTour[] res = new DayTour[1];
+        res[0] = new DayTour();
+        res[0].setActivity("Hiking");
+        return res;
     }
     
 }

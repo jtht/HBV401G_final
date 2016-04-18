@@ -6,10 +6,7 @@
 package controller;
 
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
@@ -17,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import model.Manudur;
 import model.Profile;
-import model.TripPackage;
 
 /**
  *
@@ -365,9 +361,12 @@ public class AdalVidmot extends javax.swing.JFrame {
         tGen.setProfile(profile);
         tGen.TripGenerator();
         
-        String msg = tGen.getTrips()[0].getFlight().getName();
+        String msg1 = tGen.getTrips()[0].getFlight().getName();
+        String msg2 = tGen.getTrips()[0].getHotel().getName();
+        String msg3 = tGen.getTrips()[0].getDayTour()[0].getActivity();
+        String msg = msg1 + " " + msg2 + " " + msg3;
         
-        String title = "Invalid party size";
+        String title = "Tilraun";
         showErrorMsg(msg, title); 
         return;
     }//GEN-LAST:event_jSearchButtonActionPerformed
@@ -396,11 +395,6 @@ public class AdalVidmot extends javax.swing.JFrame {
         cb.setModel(new DefaultComboBoxModel<>(dagar));
         
         if (dayIndex + 1 <= fjoldiDaga) cb.setSelectedIndex(dayIndex);
-    }
-    
-    private void performSearch(Profile profile) {
-        
-        
     }
     
     /**

@@ -5,10 +5,16 @@
  */
 package mock;
 
+import java.util.Vector;
+
 /**
  *
  * @author Mogget
  */
 public class DayTourSearchMock {
-    
+    public Object[] search(String tripName, String tripType, Object[] propinfo){
+        Vector<String> searchpositives = new Vector<>();
+        searchpositives.add("Tilraun");
+        return searchpositives.toArray();
+    }
 }
