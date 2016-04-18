@@ -6,7 +6,10 @@
 package controller;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.DefaultComboBoxModel;
@@ -14,13 +17,14 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import model.Manudur;
 import model.Profile;
+import model.TripPackage;
 
 /**
  *
  * @author johannesthorkell
  */
 public class AdalVidmot extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form AdalVidmot
      */
@@ -356,6 +360,16 @@ public class AdalVidmot extends javax.swing.JFrame {
         profile.setPartySize(partySize);
         profile.setYoungChildren(jChildrenCheckBox.isSelected());
         profile.setSmokers(jSmokersCheckBox.isSelected());
+        
+        model.TripGenerator tGen = new model.TripGenerator();
+        tGen.setProfile(profile);
+        tGen.TripGenerator();
+        
+        String msg = tGen.getTrips()[0].getFlight().getName();
+        
+        String title = "Invalid party size";
+        showErrorMsg(msg, title); 
+        return;
     }//GEN-LAST:event_jSearchButtonActionPerformed
 
     private void showErrorMsg(String msg, String title) {
@@ -384,6 +398,11 @@ public class AdalVidmot extends javax.swing.JFrame {
         if (dayIndex + 1 <= fjoldiDaga) cb.setSelectedIndex(dayIndex);
     }
     
+    private void performSearch(Profile profile) {
+        
+        
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -410,7 +429,7 @@ public class AdalVidmot extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(AdalVidmot.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {

@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package model;
-//Tilraun
 
 import java.time.LocalDate;
 import java.util.Date;
