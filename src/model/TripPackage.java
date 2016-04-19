@@ -5,16 +5,16 @@ import java.util.List;
 import model.Interfaces.TripPackageInterface;
 
 public class TripPackage implements TripPackageInterface {
-	private mock.FlightMock flight;
-	private mock.FlightMock returnFlight;
+	private pakki.Flight flight;
+	private pakki.Flight returnFlight;
 	private mock.HotelMock hotel;
 	private List<DayTour> dayTours = new ArrayList<>();
 
-	public void setFlight(mock.FlightMock flight) {
+	public void setFlight(pakki.Flight flight) {
 		this.flight = flight;
 	}
 
-	public mock.FlightMock getFlight() {
+	public pakki.Flight getFlight() {
 		return this.flight;
 	}
 
@@ -36,11 +36,11 @@ public class TripPackage implements TripPackageInterface {
             return res;
 	}
 
-	public void setReturnFlight(mock.FlightMock returnFlight) {
+	public void setReturnFlight(pakki.Flight returnFlight) {
 		this.returnFlight = returnFlight;
 	}
 
-	public mock.FlightMock getReturnFlight() {
+	public pakki.Flight getReturnFlight() {
 		return this.returnFlight;
 	}
 }

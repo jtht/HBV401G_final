@@ -8,8 +8,8 @@ public class TripGenerator implements TripGeneratorInterface {
 	private Profile profile;
 	private Search search = new Search();
 	private List<TripPackage> tripPackages = new ArrayList<TripPackage>();
-	private mock.FlightMock[] flights;
-	private mock.FlightMock[] returns;
+	private pakki.Flight[] flights;
+	private pakki.Flight[] returns;
 	private mock.HotelMock[] hotels;
 	private DayTour[] dayTours;
 

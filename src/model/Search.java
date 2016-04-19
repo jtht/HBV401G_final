@@ -15,22 +15,22 @@ import model.Interfaces.SearchInterface;
  * @author Mogget
  */
 public class Search implements SearchInterface{
-    private final mock.FlightSearchMock flightSearch = new mock.FlightSearchMock();
+    private final pakki.FlightSearch flightSearch = new pakki.FlightSearch();
     private final mock.HotelSearchMock hotelSearch = new mock.HotelSearchMock();
     private final mock.DayTourSearchMock dayTourSearch = new mock.DayTourSearchMock();
     
-    private List<mock.FlightMock> possibleFlights;
-    private List<mock.FlightMock> possibleReturns;
+    private List<pakki.Flight> possibleFlights;
+    private List<pakki.Flight> possibleReturns;
     private List<mock.HotelMock> possibleHotels;
     private DayTour[] possibleDayTours;
     private Profile profile;
 
     public void search(Profile profile) {
         possibleFlights = flightSearch.search(profile.getPartySize(),
-                Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant()),
+                Date.from(profile.getDepartingDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()),
                 profile.getDestination(),
                 profile.getOrigin());
-        
+
         possibleReturns = flightSearch.search(profile.getPartySize(),
                 Date.from(profile.getArrivalDate().atStartOfDay(ZoneId.systemDefault()).toInstant()),
                 profile.getOrigin(),
@@ -48,25 +48,27 @@ public class Search implements SearchInterface{
         
         //Object[] a = {cardDir, selectLanguage, review, animals, insurence, pickUp, accessibility};
         Object[] tmpInput = {3, 1, 3, false, true, true, false};
-        Object[] tmp = dayTourSearch.search("Vatnajökull", "Hike", tmpInput);
+        Object[] tmp = dayTourSearch.search("Vatnajökull", "Fjallganga", tmpInput);
         //Búa til DayTour objectin. Vantar að vita hvernig nákvæmlega þetta á eftir að enda
         DayTour[] tmpTours = new DayTour[tmp.length];
         for(int i = 0; i < tmp.length; i++) {
             DayTour tmptour = new DayTour();
-            tmptour.setActivity("Hiking");
+            tmptour.setActivity("Fjallganga");
+            tmptour.setLocation("Vatnajökull");
+            tmptour.setDate(Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             tmpTours[i] = tmptour;
         }
         this.possibleDayTours = tmpTours;
     }
-
-    public mock.FlightMock[] getFlights() {
-        mock.FlightMock[] res = new mock.FlightMock[this.possibleFlights.size()];
+    
+    public pakki.Flight[] getFlights() {
+        pakki.Flight[] res = new pakki.Flight[this.possibleFlights.size()];
         res = this.possibleFlights.toArray(res);
         return res;
     }
-
-    public mock.FlightMock[] getReturns() {
-        mock.FlightMock[] res = new mock.FlightMock[this.possibleReturns.size()];
+    
+    public pakki.Flight[] getReturns() {
+        pakki.Flight[] res = new pakki.Flight[this.possibleReturns.size()];
         res = this.possibleReturns.toArray(res);
         return res;
     }
@@ -84,5 +86,21 @@ public class Search implements SearchInterface{
         res[0].setActivity("Hiking");
         return res;
     }
+    
+    /*private List<mock.HotelMock> hotelFormatSearch(mock.HotelSearchFilterMock filter) {
+        String din = new SimpleDateFormat("yyyy-MM-dd").format(filter.getDateIn());
+        String dout = new SimpleDateFormat("yyyy-MM-dd").format(filter.getDateOut());
+
+        List<String> sendList = new ArrayList<>();
+        sendList.add(filter.getAreaName());
+        sendList.add(din);
+        sendList.add(dout);
+
+        List<String>  queryList = new QueryStringBuilder().makeSearchHotelsQuery(sendList);
+
+        ResultSet results = new DbUtils().SearchDB(queryList);
+
+        return new SqlMapper().mapHotelSearch(results);
+    }*/
     
 }

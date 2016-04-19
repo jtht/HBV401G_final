@@ -346,8 +346,6 @@ public class AdalVidmot extends javax.swing.JFrame {
             return;
         }
         
-        System.out.println(jSmokersCheckBox.isSelected());
-        
         Profile profile = new Profile();
         profile.setDepartingDate(dprtDate);
         profile.setArrivalDate(arrDate);
@@ -359,12 +357,20 @@ public class AdalVidmot extends javax.swing.JFrame {
         
         model.TripGenerator tGen = new model.TripGenerator();
         tGen.setProfile(profile);
-        tGen.TripGenerator();
+        try {
+            tGen.TripGenerator();
+        } catch (ArrayIndexOutOfBoundsException e) {
+            String msg = "Could not find a suitable package";
+            String title = "Error";
+            showErrorMsg(msg, title); 
+            return;
+        }
         
-        String msg1 = tGen.getTrips()[0].getFlight().getName();
-        String msg2 = tGen.getTrips()[0].getHotel().getName();
-        String msg3 = tGen.getTrips()[0].getDayTour()[0].getActivity();
-        String msg = msg1 + " " + msg2 + " " + msg3;
+        String msg2 = tGen.getTrips()[0].getFlight().getArrivalAirport();
+        String msg1 = tGen.getTrips()[0].getReturnFlight().getArrivalAirport();
+        String msg3 = tGen.getTrips()[0].getHotel().getName();
+        String msg4 = tGen.getTrips()[0].getDayTour()[0].getActivity();
+        String msg = msg1 + " " + msg2 + " " + msg3 + " " + msg4;
         
         String title = "Tilraun";
         showErrorMsg(msg, title); 
