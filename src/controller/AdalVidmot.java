@@ -250,7 +250,7 @@ public class AdalVidmot extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(13, Short.MAX_VALUE))
+                        .addContainerGap(64, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
@@ -368,7 +368,7 @@ public class AdalVidmot extends javax.swing.JFrame {
         
         String msg2 = tGen.getTrips()[0].getFlight().getArrivalAirport();
         String msg1 = tGen.getTrips()[0].getReturnFlight().getArrivalAirport();
-        String msg3 = tGen.getTrips()[0].getHotel().getName();
+        String msg3 = tGen.getTrips()[0].getHotel().name;
         String msg4 = tGen.getTrips()[0].getDayTour()[0].getActivity();
         String msg = msg1 + " " + msg2 + " " + msg3 + " " + msg4;
         

@@ -13,6 +13,6 @@ public class Results implements ResultsInterface {
 	}
 
 	public void bookPackage(TripPackage packag) {
-		this.booker.bookPackageForUser(packag, this.user);
+		this.booker.bookPackageForUser(packag, this.profile, this.user);
 	}
 }

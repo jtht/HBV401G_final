@@ -10,7 +10,7 @@ public class TripGenerator implements TripGeneratorInterface {
 	private List<TripPackage> tripPackages = new ArrayList<TripPackage>();
 	private pakki.Flight[] flights;
 	private pakki.Flight[] returns;
-	private mock.HotelMock[] hotels;
+	private HotelSearch.Classes.Hotel[] hotels;
 	private DayTour[] dayTours;
 
 	public void TripGenerator() {

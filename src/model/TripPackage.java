@@ -7,7 +7,7 @@ import model.Interfaces.TripPackageInterface;
 public class TripPackage implements TripPackageInterface {
 	private pakki.Flight flight;
 	private pakki.Flight returnFlight;
-	private mock.HotelMock hotel;
+	private HotelSearch.Classes.Hotel hotel;
 	private List<DayTour> dayTours = new ArrayList<>();
 
 	public void setFlight(pakki.Flight flight) {
@@ -18,11 +18,11 @@ public class TripPackage implements TripPackageInterface {
 		return this.flight;
 	}
 
-	public void setHotel(mock.HotelMock hotel) {
+	public void setHotel(HotelSearch.Classes.Hotel hotel) {
 		this.hotel = hotel;
 	}
 
-	public mock.HotelMock getHotel() {
+	public HotelSearch.Classes.Hotel getHotel() {
 		return this.hotel;
 	}
 

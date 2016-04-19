@@ -9,6 +9,6 @@ public interface SearchInterface {
 	public void search(Profile profile);
 	public pakki.Flight[] getFlights();
 	public pakki.Flight[] getReturns();
-	public mock.HotelMock[] getHotels();
+	public HotelSearch.Classes.Hotel[] getHotels();
 	public DayTour[] getDayTours();
 }

@@ -5,7 +5,10 @@
  */
 package model;
 
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import model.Interfaces.SearchInterface;
@@ -16,16 +19,17 @@ import model.Interfaces.SearchInterface;
  */
 public class Search implements SearchInterface{
     private final pakki.FlightSearch flightSearch = new pakki.FlightSearch();
-    private final mock.HotelSearchMock hotelSearch = new mock.HotelSearchMock();
     private final mock.DayTourSearchMock dayTourSearch = new mock.DayTourSearchMock();
     
     private List<pakki.Flight> possibleFlights;
     private List<pakki.Flight> possibleReturns;
-    private List<mock.HotelMock> possibleHotels;
+    private List<HotelSearch.Classes.Hotel> possibleHotels;
     private DayTour[] possibleDayTours;
     private Profile profile;
 
     public void search(Profile profile) {
+        this.profile = profile;
+        
         possibleFlights = flightSearch.search(profile.getPartySize(),
                 Date.from(profile.getDepartingDate().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant()),
                 profile.getDestination(),
@@ -36,15 +40,15 @@ public class Search implements SearchInterface{
                 profile.getOrigin(),
                 profile.getDestination());
         
-        mock.HotelSearchFilterMock filter = new mock.HotelSearchFilterMock();
+        HotelSearch.Classes.HotelSearchFilter filter = new HotelSearch.Classes.HotelSearchFilter();
         filter.wifi = true;
         filter.smoking = false;
         filter.breakfast = true;
         filter.rating = 4.0;
         filter.areaId = 1;
-        filter.dateIn = Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        filter.dateOut = Date.from(profile.getArrivalDate().atStartOfDay(ZoneId.systemDefault()).toInstant());
-        possibleHotels = hotelSearch.findHotels(filter);
+        filter.dateIn = java.sql.Date.valueOf(profile.getDepartingDate());
+        filter.dateOut = java.sql.Date.valueOf(profile.getArrivalDate());
+        possibleHotels = hotelFormatSearch(filter);
         
         //Object[] a = {cardDir, selectLanguage, review, animals, insurence, pickUp, accessibility};
         Object[] tmpInput = {3, 1, 3, false, true, true, false};
@@ -73,8 +77,8 @@ public class Search implements SearchInterface{
         return res;
     }
 
-    public mock.HotelMock[] getHotels() {
-        mock.HotelMock[] res = new mock.HotelMock[this.possibleHotels.size()];
+    public HotelSearch.Classes.Hotel[] getHotels() {
+        HotelSearch.Classes.Hotel[] res = new HotelSearch.Classes.Hotel[this.possibleHotels.size()];
         res = this.possibleHotels.toArray(res);
         return res;
     }
@@ -87,20 +91,21 @@ public class Search implements SearchInterface{
         return res;
     }
     
-    /*private List<mock.HotelMock> hotelFormatSearch(mock.HotelSearchFilterMock filter) {
-        String din = new SimpleDateFormat("yyyy-MM-dd").format(filter.getDateIn());
-        String dout = new SimpleDateFormat("yyyy-MM-dd").format(filter.getDateOut());
+    private List<HotelSearch.Classes.Hotel> hotelFormatSearch(HotelSearch.Classes.HotelSearchFilter filter) {
+        String din = new SimpleDateFormat("yyyy-MM-dd").format(filter.dateIn);
+        String dout = new SimpleDateFormat("yyyy-MM-dd").format(filter.dateOut);
 
         List<String> sendList = new ArrayList<>();
-        sendList.add(filter.getAreaName());
+        //sendList.add(this.profile.getDestination());
+        sendList.add("All areas");
         sendList.add(din);
         sendList.add(dout);
 
-        List<String>  queryList = new QueryStringBuilder().makeSearchHotelsQuery(sendList);
+        List<String> queryList = new HotelSearch.System.QueryStringBuilder().makeSearchHotelsQuery(sendList);
 
-        ResultSet results = new DbUtils().SearchDB(queryList);
+        ResultSet results = new HotelSearch.System.DbUtils().SearchDB(queryList);
 
-        return new SqlMapper().mapHotelSearch(results);
-    }*/
+        return new HotelSearch.System.SqlMapper().mapHotelSearch(results);
+    }
     
 }
