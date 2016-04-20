@@ -26,7 +26,7 @@ public class SkodaPakka extends javax.swing.JDialog {
         String msg2 = tripPackage.getFlight().getArrivalAirport();
         String msg1 = tripPackage.getReturnFlight().getArrivalAirport();
         String msg3 = tripPackage.getHotel().name;
-        String msg4 = tripPackage.getDayTour().toString();
+        String msg4 = tripPackage.getDayTour()[0].getActivity();
         
         jToLabel.setText(msg1);
         jFromLabel.setText(msg2);

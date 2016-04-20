@@ -19,6 +19,7 @@ import model.Interfaces.SearchInterface;
  */
 public class Search implements SearchInterface{
     private final pakki.FlightSearch flightSearch = new pakki.FlightSearch();
+    private final HotelSearch.System.HotelFinder hotelSearch = new HotelSearch.System.HotelFinder();
     private final mock.DayTourSearchMock dayTourSearch = new mock.DayTourSearchMock();
     
     private List<pakki.Flight> possibleFlights;
@@ -46,6 +47,7 @@ public class Search implements SearchInterface{
         filter.breakfast = true;
         filter.rating = 4.0;
         filter.areaId = 1;
+        filter.areaName = findArea();
         filter.dateIn = java.sql.Date.valueOf(profile.getDepartingDate());
         filter.dateOut = java.sql.Date.valueOf(profile.getArrivalDate());
         possibleHotels = hotelFormatSearch(filter);
@@ -58,7 +60,7 @@ public class Search implements SearchInterface{
         for(int i = 0; i < tmp.length; i++) {
             DayTour tmptour = new DayTour();
             tmptour.setActivity("Fjallganga");
-            tmptour.setLocation("Vatnajökull");
+            tmptour.setLocation(findArea());
             tmptour.setDate(Date.from(profile.getDepartingDate().atStartOfDay(ZoneId.systemDefault()).toInstant()));
             tmpTours[i] = tmptour;
         }
@@ -84,28 +86,27 @@ public class Search implements SearchInterface{
     }
 
     public DayTour[] getDayTours() {
-        //return this.possibleDayTours;
-        DayTour[] res = new DayTour[1];
-        res[0] = new DayTour();
-        res[0].setActivity("Hiking");
-        return res;
+        return this.possibleDayTours;
     }
     
     private List<HotelSearch.Classes.Hotel> hotelFormatSearch(HotelSearch.Classes.HotelSearchFilter filter) {
-        String din = new SimpleDateFormat("yyyy-MM-dd").format(filter.dateIn);
-        String dout = new SimpleDateFormat("yyyy-MM-dd").format(filter.dateOut);
-
-        List<String> sendList = new ArrayList<>();
-        //sendList.add(this.profile.getDestination());
-        sendList.add("All areas");
-        sendList.add(din);
-        sendList.add(dout);
-
-        List<String> queryList = new HotelSearch.System.QueryStringBuilder().makeSearchHotelsQuery(sendList);
-
-        ResultSet results = new HotelSearch.System.DbUtils().SearchDB(queryList);
-
-        return new HotelSearch.System.SqlMapper().mapHotelSearch(results);
+        return hotelSearch.getHotels(filter);
+    }
+    
+    private String findArea() {
+        switch(this.profile.getDestination()) {
+            case "RKV":
+                return "Capital Area";
+            case "AEY":
+                return "North Iceland";
+            case "IFJ":
+                return "Westfjords";
+            case "EGS":
+                return "Eastern Iceland";
+            case "VES":
+                return "Vestmannaeyjar";
+        }
+        return "All areas";
     }
     
 }
